@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio & Biodata Pribadi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-500 selection:text-white">
+
+    <!-- Notifikasi Toast Custom (Pengganti alert) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Navigasi Utama -->
+    <nav class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo / Nama Brand -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary-600 to-indigo-400 flex items-center justify-center text-white font-heading font-bold shadow-md shadow-primary-500/20">
+                        <i class="fa-solid fa-id-card-clip"></i>
+                    </div>
+                    <span class="font-heading font-bold text-lg tracking-tight text-slate-900">My<span class="text-primary-600">Portfolio</span></span>
+                </div>
+
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600">
+                    <a href="#profil" class="hover:text-primary-600 transition-colors">Profil</a>
+                    <a href="#identitas-view" class="hover:text-primary-600 transition-colors">Identitas</a>
+                    <a href="#portofolio-grid" class="hover:text-primary-600 transition-colors">Data & Rekam Jejak</a>
+                    <a href="#kontak" class="hover:text-primary-600 transition-colors">Kontak</a>
+                </div>
+
+                <!-- Tombol Akses Menu Identitas (Dengan Token) -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openTokenModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
+                        <i class="fa-solid fa-lock text-xs text-amber-400"></i>
+                        <span>Menu Identitas</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section & Foto Profil -->
+    <header id="profil" class="relative overflow-hidden bg-white border-b border-slate-200/70">
+        <!-- Dekorasi Latar -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-50/70 via-white to-indigo-50/50 pointer-events-none"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary-100/50 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <!-- Foto Profil dengan Tombol Ganti Foto -->
+                <div class="relative group shrink-0">
+                    <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-3xl p-1.5 bg-gradient-to-tr from-primary-600 via-indigo-500 to-purple-500 shadow-xl shadow-primary-500/15">
+                        <img id="profile-image" 
+                             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/4f46e5/ffffff?text=Foto+Profil';"
+                             alt="Foto Profil" 
+                             class="w-full h-full object-cover rounded-2xl bg-slate-100">
+                    </div>
+                    <!-- Tombol Edit Foto Profil -->
+                    <button onclick="openPhotoModal()" title="Ubah Foto Profil" class="absolute -bottom-3 -right-3 w-11 h-11 rounded-2xl bg-white text-slate-700 hover:text-primary-600 border border-slate-200 shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-camera text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Ringkasan Profil Utama -->
+                <div class="text-center md:text-left flex-1 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-xs font-semibold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-primary-600 animate-pulse"></span>
+                        Portofolio & Biodata Resmi
+                    </div>
+                    
+                    <h1 id="hero-nama" class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+                        Yanntha Putri
+                    </h1>
+                    
+                    <p id="hero-bio" class="text-slate-600 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Individu kreatif yang berdedikasi tinggi, gemar mengeksplorasi hal baru, serta aktif berkontribusi dalam berbagai kegiatan organisasi dan pengembangan karya.
+                    </p>
+
+                    <!-- Quick Badges: Status & Hobi -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2.5 pt-1">
+                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs sm:text-sm font-medium">
+                            <i class="fa-solid fa-user-check text-primary-600"></i>
+                            <span id="badge-status">Pelajar / Mahasiswa</span>
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs sm:text-sm font-medium">
+                            <i class="fa-solid fa-heart text-rose-500"></i>
+                            <span id="badge-hobi">Desain, Membaca, Fotografi</span>
+                        </span>
+                    </div>
+
+                    <!-- Tombol Kontak Cepat & Sosial Media -->
+                    <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 pt-3">
+                        <a href="https://wa.me/62895392859321" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm hover:shadow transition-all">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>+62 895-3928-59321</span>
+                        </a>
+                        <a href="https://instagram.com/ynnthaap" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-pink-50 text-slate-700 hover:text-pink-600 border border-slate-200 text-sm font-medium transition-all">
+                            <i class="fa-brands fa-instagram text-lg text-pink-600"></i>
+                            <span>@ynnthaap</span>
+                        </a>
+                        <a href="https://tiktok.com/@ppipellj" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-sm font-medium transition-all">
+                            <i class="fa-brands fa-tiktok text-base text-slate-900"></i>
+                            <span>@ppipellj</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
+        <!-- Bagian 1: Ringkasan Identitas Diri -->
+        <section id="identitas-view" class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-address-card"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-heading text-lg sm:text-xl font-bold text-slate-900">Identitas Pribadi</h2>
+                        <p class="text-xs sm:text-sm text-slate-500">Data diri lengkap pemilik portofolio</p>
+                    </div>
+                </div>
+                <!-- Tombol Menu untuk Membuka Pengisian Identitas (Memerlukan Token) -->
+                <button onclick="openTokenModal()" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-50 hover:bg-primary-100 text-primary-700 text-sm font-semibold transition-colors">
+                    <i class="fa-solid fa-key text-xs"></i>
+                    <span>Isi / Update Identitas</span>
+                </button>
+            </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Item Identitas -->
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Nama Lengkap</span>
+                        <p id="disp-nama" class="font-semibold text-slate-800 text-base">Yanntha Putri</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Tanggal Lahir</span>
+                        <p id="disp-tglLahir" class="font-semibold text-slate-800 text-base">15 Agustus 2004</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Jenis Kelamin</span>
+                        <p id="disp-jenisKelamin" class="font-semibold text-slate-800 text-base">Perempuan</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Status</span>
+                        <p id="disp-status" class="font-semibold text-slate-800 text-base">Belum Menikah / Pelajar</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Nama Orang Tua</span>
+                        <p id="disp-orangTua" class="font-semibold text-slate-800 text-base">Bapak Hendra & Ibu Sari</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Hobi & Minat</span>
+                        <p id="disp-hobi" class="font-semibold text-slate-800 text-base">Desain Grafis, Membaca, Fotografi</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 sm:col-span-2 lg:col-span-3">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Alamat Lengkap</span>
+                        <p id="disp-alamat" class="font-semibold text-slate-800 text-base">Jl. Merdeka No. 45, Kota Bandung, Jawa Barat</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bagian 2: Grid 6 Kategori Data Portofolio (Masing-masing dilengkapi Tombol Menu Pengisian/Update) -->
+        <section id="portofolio-grid" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-slate-900">Rekam Jejak & Portofolio</h2>
+                    <p class="text-sm text-slate-500 mt-1">Klik tombol menu pada setiap kartu data untuk menambah atau memperbarui informasi.</p>
+                </div>
+                <button onclick="resetAllData()" class="self-start sm:self-auto text-xs text-slate-400 hover:text-rose-600 underline transition-colors">
+                    Reset ke Data Awal
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- 1. Prestasi -->
+                <article class="bg-white rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between overflow-hidden hover:border-amber-300/80 transition-colors">
+                    <div>
+                        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-amber-50/40">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-trophy"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-lg text-slate-900">Prestasi</h3>
+                            </div>
+                            <!-- Tombol Menu Pengisian/Update Data -->
+                            <button onclick="openCategoryModal('prestasi')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-amber-500 text-slate-700 hover:text-white border border-slate-200 hover:border-amber-500 text-xs font-semibold shadow-sm transition-all">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Menu Data</span>
+                            </button>
+                        </div>
+                        <div id="list-prestasi" class="p-6 space-y-3">
+                            <!-- Diisi via JavaScript -->
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2. Keahlian -->
+                <article class="bg-white rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between overflow-hidden hover:border-indigo-300/80 transition-colors">
+                    <div>
+                        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/40">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-lg text-slate-900">Keahlian</h3>
+                            </div>
+                            <!-- Tombol Menu Pengisian/Update Data -->
+                            <button onclick="openCategoryModal('keahlian')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-indigo-600 text-slate-700 hover:text-white border border-slate-200 hover:border-indigo-600 text-xs font-semibold shadow-sm transition-all">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Menu Data</span>
+                            </button>
+                        </div>
+                        <div id="list-keahlian" class="p-6">
+                            <!-- Diisi via JavaScript -->
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 3. Riwayat Pendidikan -->
+                <article class="bg-white rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between overflow-hidden hover:border-sky-300/80 transition-colors">
+                    <div>
+                        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-sky-50/40">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-lg text-slate-900">Riwayat Pendidikan</h3>
+                            </div>
+                            <!-- Tombol Menu Pengisian/Update Data -->
+                            <button onclick="openCategoryModal('pendidikan')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-sky-600 text-slate-700 hover:text-white border border-slate-200 hover:border-sky-600 text-xs font-semibold shadow-sm transition-all">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Menu Data</span>
+                            </button>
+                        </div>
+                        <div id="list-pendidikan" class="p-6 space-y-4">
+                            <!-- Diisi via JavaScript -->
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 4. Pengalaman Organisasi -->
+                <article class="bg-white rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between overflow-hidden hover:border-emerald-300/80 transition-colors">
+                    <div>
+                        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/40">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-users-gear"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-lg text-slate-900">Pengalaman Organisasi</h3>
+                            </div>
+                            <!-- Tombol Menu Pengisian/Update Data -->
+                            <button onclick="openCategoryModal('organisasi')" class="inline-f
